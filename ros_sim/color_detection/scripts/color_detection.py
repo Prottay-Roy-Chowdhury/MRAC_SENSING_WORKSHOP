@@ -19,7 +19,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
-#from color_image import show_image, get_color_range, detect_color, get_max_contour
+from color_image import show_image, get_color_range, detect_color, get_max_contour
 #from velocity import get_velocity
 
 
@@ -40,10 +40,10 @@ def image_callback(msg):
     ##########################################
 
     # Convert your ros image message to opencv using bridge
-    # <COMPLETE> 
+    img = bridge.imgmsg_to_cv2(msg, "bgr8")
 
     # Show image using show_image function
-    # <COMPLETE> 
+    show_image(img, "window_name")
 
     # Get half width of the image 
     # <COMPLETE> 
