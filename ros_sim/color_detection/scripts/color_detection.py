@@ -26,7 +26,7 @@ from velocity import get_velocity
 # Variables 
 ########################################################################
 bridge = CvBridge()
-min_detection = 1000
+min_detection = 50000
 
 
 
@@ -83,7 +83,9 @@ def image_callback(msg):
         show_image(img, "Detected Color")
 
         # Gets the color speed and direction depending on the color detection using get_velocity from velocity.py
-        vel = get_velocity(vel, area, center[0], mid_width)
+        linear_vel, angular_vel = get_velocity(vel, area, center[0], mid_width)
+        vel.linear.x = linear_vel
+        vel.angular.z = angular_vel
 
             
     # If the area of the detected color is not big enough, the robot spins 

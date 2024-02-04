@@ -4,8 +4,8 @@ import cv2
 
 # Variables 
 ########################################################################
-max_area_detection = 5000
-min_area_detection = 500
+max_area_detection = 70000
+min_area_detection = 10000
 
 
 
@@ -15,9 +15,8 @@ min_area_detection = 500
 
 # Gets the robot speed and direction depending on the color detection 
 def get_velocity(vel, area, x, mid_width):
-    vel = [linear_vel, angular_vel]
     linear_vel = 0.0
-    angular_vel = 0.0
+    angular_vel = 0.0    
 
     #########################################################################################
     # If the area is too big, robot too close --> the robot go backwards                    #
@@ -40,10 +39,11 @@ def get_velocity(vel, area, x, mid_width):
     
     # if good distance --> stop
     else:
-        vel = 0.0
+        linear_vel = 0.0
+        angular_vel = 0.0   
     
 
-    return vel
+    return linear_vel, angular_vel
 
 
 
