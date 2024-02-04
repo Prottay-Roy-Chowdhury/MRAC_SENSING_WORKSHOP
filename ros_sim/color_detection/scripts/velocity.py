@@ -15,6 +15,9 @@ min_area_detection = 500
 
 # Gets the robot speed and direction depending on the color detection 
 def get_velocity(vel, area, x, mid_width):
+    vel = [linear_vel, angular_vel]
+    linear_vel = 0.0
+    angular_vel = 0.0
 
     #########################################################################################
     # If the area is too big, robot too close --> the robot go backwards                    #
@@ -24,16 +27,16 @@ def get_velocity(vel, area, x, mid_width):
 
     # if too close -> go backwards
     if area > max_area_detection:
-        vel = -0.5
+        linear_vel = -0.5
 
     # if too far -> move towards
     elif area < max_area_detection:
-        vel = 0.5
+        linear_vel = 0.5
 
         # The robot will turn to the color to keep the detection in the middle of the image 
         # Use get_angular_velocity to get the robot to spin towards the color   
         angular_vel = get_angular_velocity(x, mid_width)
-        vel = [vel, angular_vel]
+        
     
     # if good distance --> stop
     else:

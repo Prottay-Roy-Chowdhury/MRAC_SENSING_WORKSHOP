@@ -83,7 +83,7 @@ def image_callback(msg):
         show_image(img, "Detected Color")
 
         # Gets the color speed and direction depending on the color detection using get_velocity from velocity.py
-        vel = get_velocity(vel, area, x, mid_width)
+        vel = get_velocity(vel, area, center[0], mid_width)
 
             
     # If the area of the detected color is not big enough, the robot spins 
