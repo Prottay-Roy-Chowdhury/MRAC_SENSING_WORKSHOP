@@ -18,9 +18,9 @@ def get_color_range(color):
     
     # Complete only for the color you want to detect 
 
-    #if(color == 'red'):
-    #    lower_range = # <COMPLETE>
-    #    upper_range = # <COMPLETE>
+    if(color == 'red'):
+        lower_range = (0, 50, 50)
+        upper_range = (10, 255, 255)
  
     #elif(color == 'green'):
     #    lower_range = # <COMPLETE>
@@ -34,34 +34,34 @@ def get_color_range(color):
     #    lower_range = # <COMPLETE>
     #    upper_range = # <COMPLETE>
     
-    # return lower_range, upper_range
+    return lower_range, upper_range
 
 
 
 # Detects the color 
-# def detect_color(img, lower_range, upper_range):
+def detect_color(img, lower_range, upper_range):
 
     # Perform a Gaussian filter 
-    # <COMPLETE>
+    img_gauss = cv2.GaussianBlur(img, (5, 5), 0)
 
     # Convert gauss image to HSV
-    # <COMPLETE>
+    img_hsv = cv2.cvtColor(img_gauss, cv2.COLOR_BGR2HSV)
 
     # Get color mask
-    # <COMPLETE>
+    color_mask = cv2.inRange(img_hsv, lower_range, upper_range)
 
     # Define rectangular kernel 25x25
-    # <COMPLETE>
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25))
 
     # Apply openning to mask 
-    # <COMPLETE>
+    mask = cv2.morphologyEx(color_mask, cv2.MORPH_OPEN, kernel)
 
-    # return mask
+    return mask
 
 
 
 # Get maximum contour, area and its center 
-# def get_max_contour(mask): 
+def get_max_contour(mask): 
 
     contour_max = []
     area_max = 0
@@ -69,24 +69,25 @@ def get_color_range(color):
 
     
     # Find contours
-    # <COMPLETE>
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # For each contour
-    # <COMPLETE>
+    for contour in contours:
     
         # Get area of the contour 
-        # <COMPLETE>
+        area = cv2.contourArea(contour)
 
         # If area is bigger than area_max 
-        # <COMPLETE>
+        if area > area_max:
             # Update area max value 
-            # <COMPLETE>
+            area_max = area
 
             # Update contour_max value
-            # <COMPLETE>
+            contour_max = contour
 
             # Get center of the contour using cv2.moments
-            # <COMPLETE>
+            moments = cv2.moments(contour)
+            center = (int(moments['m10'] / moments['m00']), int(moments['m01'] / moments['m00']))
 
 
     return contour_max, area_max, center

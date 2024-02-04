@@ -20,13 +20,13 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
 from color_image import show_image, get_color_range, detect_color, get_max_contour
-#from velocity import get_velocity
+from velocity import get_velocity
 
 
 # Variables 
 ########################################################################
 bridge = CvBridge()
-#min_detection = <COMPLETE> 
+min_detection = 1000
 
 
 
@@ -46,51 +46,54 @@ def image_callback(msg):
     show_image(img, "window_name")
 
     # Get half width of the image 
-    # <COMPLETE> 
+    mid_width = img.shape[1] // 2
 
     # Create velocity publisher and variable of velocity
-    # <COMPLETE> 
+    vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    vel = Twist()
 
     
     # Do color detection 
     ##########################################
 
     # Get color range using get_color_range from color_image.py
-    # <COMPLETE> 
+    lower_range, upper_range = get_color_range('red')
     
     # Get color mask using detect_color from color_image.py
-    # <COMPLETE>
+    mask = detect_color(img, lower_range, upper_range)
 
     # Show mask 
-    # <COMPLETE>
+    show_image(mask, "Color Mask")
 
     # Find contours and get max area using get_max_contours from color_image.py 
-    # <COMPLETE>
-    #print("Maximum area: ", area)
+    contours, area, center = get_max_contour(mask)
+    print("Maximum area: ", area)
 
 
     # Get robot speed     
     ##########################################
 
     # If the area of the detected color is big enough
-    if():
+    if area > min_detection:
         print("Cylinder detected")
 
         # Draw contour and center of the detection and show image 
-        # <COMPLETE>
+        cv2.drawContours(img, [contours], 0, (0, 255, 0), 3)
+        cv2.circle(img, center, 5, (0, 0, 255), -1)
+        show_image(img, "Detected Color")
 
         # Gets the color speed and direction depending on the color detection using get_velocity from velocity.py
-        # <COMPLETE>
+        vel = get_velocity(vel, area, x, mid_width)
 
             
     # If the area of the detected color is not big enough, the robot spins 
     else:
         print("Looking for color: spinning")
-        # <COMPLETE>
+        vel.angular.z = 0.1
         
 
     # Publish velocity
-    # <COMPLETE> 
+    vel_pub.publish(vel)
 
 
 

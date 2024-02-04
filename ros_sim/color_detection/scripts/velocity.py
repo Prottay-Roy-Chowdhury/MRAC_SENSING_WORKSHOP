@@ -4,8 +4,8 @@ import cv2
 
 # Variables 
 ########################################################################
-# max_area_detection = # <COMPLETE>
-# min_area_detection = # <COMPLETE>
+max_area_detection = 5000
+min_area_detection = 500
 
 
 
@@ -23,18 +23,21 @@ def get_velocity(vel, area, x, mid_width):
     #########################################################################################
 
     # if too close -> go backwards
-    # <COMPLETE>
-        # <COMPLETE>
+    if area > max_area_detection:
+        vel = -0.5
 
     # if too far -> move towards
-    # <COMPLETE>
-        # <COMPLETE> 
+    elif area < max_area_detection:
+        vel = 0.5
 
         # The robot will turn to the color to keep the detection in the middle of the image 
         # Use get_angular_velocity to get the robot to spin towards the color   
-        # <COMPLETE> 
+        angular_vel = get_angular_velocity(x, mid_width)
+        vel = [vel, angular_vel]
     
     # if good distance --> stop
+    else:
+        vel = 0.0
     
 
     return vel
@@ -46,16 +49,16 @@ def get_velocity(vel, area, x, mid_width):
 # mid_width : middle width of image 
 def get_angular_velocity(x, mid_width):
     vel_z = 0.0
-    # offset = # <COMPLETE>
+    offset = 20
     
     # If the centroid of the color is on the right part of the image + offset
-    # <COMPLETE>
+    if x > mid_width + offset:
         # Turn to the right
-        # <COMPLETE>
+        vel_z = -0.1
 
     # If the centroid of the color is on the left part of the image - offset
-    # <COMPLETE>
+    elif x < mid_width - offset:
         # Turn to the left
-        # <COMPLETE>
+        vel_z = 0.1
 
     return vel_z
