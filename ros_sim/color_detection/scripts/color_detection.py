@@ -26,7 +26,7 @@ from velocity import get_velocity
 # Variables 
 ########################################################################
 bridge = CvBridge()
-min_detection = 50000
+min_detection = 30000
 
 
 

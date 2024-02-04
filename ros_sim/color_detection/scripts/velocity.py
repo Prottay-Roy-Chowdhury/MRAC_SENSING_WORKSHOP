@@ -4,7 +4,7 @@ import cv2
 
 # Variables 
 ########################################################################
-max_area_detection = 30000
+max_area_detection = 72000
 min_area_detection = 15000
 
 
