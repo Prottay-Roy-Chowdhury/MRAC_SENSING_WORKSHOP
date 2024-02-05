@@ -30,7 +30,7 @@ def publisher():
     rate = rospy.Rate(10) # Rate to publish 10hz
 
     # Read pointcloud
-    pcd = o3d.io.read_point_cloud('/home/prottay/MRAC_SENSING_WORKSHOP/ros_ldr_cloud_01.ply') # CHANGE TO YOUR PATH!!
+    pcd = o3d.io.read_point_cloud('/home/prottay/Workshop 2.1_point cloud/ros_ldr_cloud_01.ply') # CHANGE TO YOUR PATH!!
     
     # Gets the xyz points from the pointcloud  
     xyz_points = np.asarray(pcd.points)
